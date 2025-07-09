@@ -1,12 +1,10 @@
 package off.kys.instella.plugin_bridge.loader
 
-import off.kys.instella.plugin_bridge.common.exceptions.InvalidManifestFieldValueException
-import off.kys.instella.plugin_bridge.common.exceptions.ManifestFileNotFoundException
-import off.kys.instella.plugin_bridge.common.exceptions.MissingManifestFieldException
-import off.kys.instella.plugin_bridge.common.exceptions.MissingManifestSectionException
-import off.kys.instella.plugin_bridge.common.exceptions.UnsupportedPluginFormatException
-import off.kys.instella.plugin_bridge.core.*
+import off.kys.instella.plugin_bridge.common.exceptions.*
+import off.kys.instella.plugin_bridge.core.model.*
 import off.kys.instella.plugin_bridge.data.model.*
+import off.kys.instella.plugin_bridge.data.model.util.OptionalPermissions
+import off.kys.instella.plugin_bridge.data.model.util.RequiredPermissions
 import off.kys.itoml4kt.parser.TomlParser
 import off.kys.itoml4kt.parser.extension.getArrayOrNull
 import off.kys.itoml4kt.parser.extension.getStringAtOrNull
@@ -84,17 +82,17 @@ class PluginLoader(
         ) else null
 
         return PluginSection(
-            id = manifest.getStringAtOrNull("plugin.id") ?: throw MissingManifestFieldException("id"),
-            name = manifest.getStringAtOrNull("plugin.name")
+            id = manifest.getStringAtOrNull("plugin.id")?.toPluginId() ?: throw MissingManifestFieldException("id"),
+            name = manifest.getStringAtOrNull("plugin.name")?.toPluginName()
                 ?: throw MissingManifestFieldException("name"),
             icon = pluginIcon,
-            version = manifest.getStringAtOrNull("plugin.version")
+            version = manifest.getStringAtOrNull("plugin.version")?.toPluginVersion()
                 ?: throw MissingManifestFieldException("version"),
-            description = manifest.getStringAtOrNull("plugin.description")
+            description = manifest.getStringAtOrNull("plugin.description")?.toPluginDescription()
                 ?: throw MissingManifestFieldException("description"),
-            author = manifest.getStringAtOrNull("plugin.author")
+            author = manifest.getStringAtOrNull("plugin.author")?.toPluginAuthor()
                 ?: throw MissingManifestFieldException("author"),
-            license = manifest.getStringAtOrNull("plugin.license") ?: "none",
+            license = (manifest.getStringAtOrNull("plugin.license") ?: "none").toPluginLicense(),
         )
     }
 
