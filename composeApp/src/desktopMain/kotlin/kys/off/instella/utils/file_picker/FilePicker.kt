@@ -40,7 +40,7 @@ class FilePicker private constructor(
 
     private fun handleSuccess(output: String) {
         val files = if (allowMultiple) {
-            output.split(Regex("\\|?\\s+"))
+            output.split('|')
                 .filter { it.isNotBlank() }
                 .map { File(it) }
         } else {

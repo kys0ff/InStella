@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 rootProject.name = "Instella"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
@@ -33,3 +35,7 @@ plugins {
 }
 
 include(":composeApp")
+include("plugin_bridge")
+include("shared-env")
+include("shared-logger")
+include("toml4kt")

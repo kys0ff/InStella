@@ -9,10 +9,10 @@ plugins {
 
 kotlin {
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -29,7 +29,9 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
-            implementation(libs.luaj.jse)
+            implementation(project(":plugin_bridge"))
+            implementation(project(":shared-env"))
+            implementation(project(":shared-logger"))
         }
     }
 }
@@ -45,4 +47,8 @@ compose.desktop {
             packageVersion = "1.0.0"
         }
     }
+}
+
+kotlin.compilerOptions {
+    freeCompilerArgs.set(listOf("-Xnon-local-break-continue"))
 }

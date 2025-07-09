@@ -1,12 +1,19 @@
 package kys.off.instella.data.pkg
 
 enum class PackageType {
-    TAR_GZ, RPM, JAR, GIT, DEB, APP_IMAGE;
+    GZ, RPM, JAR, GIT, DEB,
 
-    val formattedName: String
+    @Suppress("SpellCheckingInspection")
+    APPIMAGE;
+
+    private val formattedName: String
         get() = name.replace(".", "_").lowercase()
 
+    operator fun invoke() = formattedName
+
     companion object {
-        fun of(value: String): PackageType? = entries.firstOrNull { it.name == value.replace(".", "_").uppercase() }
+        fun of(value: String): PackageType? = entries.firstOrNull { type ->
+            type.name == value.replace(".", "_").uppercase()
+        }
     }
 }
